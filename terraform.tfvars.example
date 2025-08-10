@@ -1,0 +1,10 @@
+bpg_provider = {
+    agent            = false
+    api_token        = "terraform@pve!token=00000000-0000-0000-0000-000000000000"
+    endpoint         = "https://proxmox-hostname-or-ip-address:8006/"
+    insecure         = true
+    private_key_file = "~/.ssh/id_ed25519"
+    username         = "terraform"
+}
+
+k3s_token = "MySuperSecretValue"
