@@ -1,7 +1,7 @@
 # tf-bpg-pve-k3s
 Deploy a [k3s](https://k3s.io/) cluster on an existing [Proxmox VE](https://www.proxmox.com/en/products/proxmox-virtual-environment/overview) host for homelab scenarios using [Terraform](https://www.hashicorp.com/en/products/terraform) leveraging the [bpg/proxmox](https://registry.terraform.io/providers/bpg/proxmox/latest/docs) provider
 > [!IMPORTANT]
-> tested with PVE 8.4.1, Terraform 1.5.7 and bpg/proxmox 0.70.0
+> tested with PVE 8.4.1, Terraform 1.5.7 and bpg/proxmox 0.70.0\
 > requirements may change in PVE 9.x and have not been tested (by me)
 ## Terraform PVE Onboarding (API)
 ssh to your pve instance
@@ -114,7 +114,7 @@ $ terraform destroy
 ## Terraform Variables
 The variables are declared in main.tf with their defaults (These might be moved to a variables.tf later) and you can override as needed... the virtualmachine defaults will create 1 control host and 2 agents.
 > [!IMPORTANT]
-> the k3s.tpl is configured to taint the control host(s) not to run any user workloads
+> the k3s.tpl is configured to taint the control host(s) not to run any user workloads\
 > you'll need to modify this if you decide to run only a single control host with no agents
 ```
 variable "virtualmachines" {
