@@ -1,18 +1,19 @@
 # tf-bpg-pve-k3s
 Deploy a [k3s](https://k3s.io/) cluster on an existing [Proxmox VE](https://www.proxmox.com/en/products/proxmox-virtual-environment/overview) host for homelab scenarios using [Terraform](https://www.hashicorp.com/en/products/terraform) leveraging the [bpg/proxmox](https://registry.terraform.io/providers/bpg/proxmox/latest/docs) provider
 > [!IMPORTANT]
-> tested with PVE 8.4.1, Terraform 1.5.7 and bpg/proxmox 0.70.0\
-> requirements may change in PVE 9.x and have not been tested (by me)
+> Tested with PVE 8.4.1, Terraform 1.5.7 and bpg/proxmox 0.70.0.\
+> Requirements may change in PVE 9.x and have not been tested (by me).
+The onboarding steps can be skipped if you've already configured this for bpg/proxmox.
 ## Terraform PVE Onboarding (API)
-ssh to your pve instance
+SSH to your pve instance:
 ```bash
 $ ssh root@pve.lan
 ```
-create the user pve terraform account
+Create the user pve terraform account:
 ```bash
 $ pveum user add terraform@pve
 ```
-create the pve terraform role with required privledges
+Create the pve terraform role with required privledges:
 ```bash
 $ pveum role add Terraform -privs "\
 Datastore.Allocate \
@@ -39,40 +40,40 @@ VM.Monitor \
 VM.PowerMgmt \
 User.Modify"
 ```
-assign the pve terraform role to the pve terraform user account
+Assign the PVE terraform role to the PVE terraform user account:
 ```bash
 $ pveum aclmod / -user terraform@pve -role Terraform
 ```
-create a token for the pve terraform user account
+Create a token for the PVE terraform user account:
 > [!IMPORTANT]
-> record this for terraform.tfvars, you will not be able to recover this later
+> Record this for terraform.tfvars, you will not be able to recover this later.
 ```bash
 $ pveum user token add terraform@pve token -privsep 0
 ```
-enable snippets on local storage
+Enable snippets on local storage:
 ```bash
 $ pvesm set local --content vztmpl,backup,iso,snippets
 ```
 ## Terraform PVE Onboarding (SSH)
-due to limitations with the pve api, some provider actions must be performed via ssh, so create a linux system user on the pve host
+Due to limitations with the PVE, some provider actions must be performed via SSH, so create a linux system user on the PVE host:
 ```bash
 $ useradd -m terraform
 ```
-install sudo
+Install sudo
 ```bash
 $ apt install sudo
 ```
-add the terraform user to sudoers:
+Add the terraform user to sudoers:
 ```bash
 $ visudo -f /etc/sudoers.d/terraform
 ```
-content to be added to /etc/sudoers.d/terraform:
+Content to be added to /etc/sudoers.d/terraform:
 ```
 terraform ALL=(root) NOPASSWD: /sbin/pvesm
 terraform ALL=(root) NOPASSWD: /sbin/qm
 terraform ALL=(root) NOPASSWD: /usr/bin/tee /var/lib/vz/*
 ```
-Add your public key to the authorized_keys of the terraform account
+Add your public key to the authorized_keys of the terraform account:
 ```bash
 $ mkdir ~terraform/.ssh
 $ chmod 700 ~terraform/.ssh
@@ -86,7 +87,7 @@ Verify connectivity from your workstation that you'll be excuting the terraform 
 $ ssh terraform@pve.lan "sudo pvesm apiinfo"
 ```
 ## Providers Configuration (terraform.tfvars)
-An example is provided (terraform.tfvars.example) which you can use as a reference
+An example is provided (terraform.tfvars.example) which you can use as a reference:
 ```
 bpg_provider = {
     agent            = false
@@ -99,7 +100,7 @@ bpg_provider = {
 
 k3s_token = "MySuperSecretValue"
 ```
-copy the example to terraform.tfvars and update with your details
+Copy the example to terraform.tfvars and update with your details.
 
 ## Terraform Deployment
 ```bash
@@ -112,10 +113,10 @@ $ terraform apply
 $ terraform destroy
 ```
 ## Terraform Variables
-The variables are declared in main.tf with their defaults (These might be moved to a variables.tf later) and you can override as needed... the virtualmachine defaults will create 1 control host and 2 agents.
+The variables are declared in main.tf with their defaults (These might be moved to a variables.tf later) and you can override as needed... the virtualmachine defaults will create 1 control host and 2 agents:
 > [!IMPORTANT]
-> the k3s.tpl is configured to taint the control host(s) not to run any user workloads\
-> you'll need to modify this if you decide to run only a single control host with no agents
+> The k3s.tpl is configured to taint the control host(s) not to run any user workloads.\
+> You'll need to modify this if you decide to run only a single control host with no agents.
 ```
 variable "virtualmachines" {
   description = "map of virtual machine types and their configurations"
