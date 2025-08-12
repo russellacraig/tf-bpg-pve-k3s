@@ -10,11 +10,11 @@ SSH to your pve instance:
 ```bash
 $ ssh root@pve.lan
 ```
-Create the user pve terraform account:
+Create the user PVE terraform account:
 ```bash
 $ pveum user add terraform@pve
 ```
-Create the pve terraform role with required privledges:
+Create the PVE terraform role with required privledges:
 ```bash
 $ pveum role add Terraform -privs "\
 Datastore.Allocate \
