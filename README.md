@@ -3,6 +3,7 @@ Deploy a [k3s](https://k3s.io/) cluster on an existing [Proxmox VE](https://www.
 > [!IMPORTANT]
 > Tested with PVE 8.4.1, Terraform 1.5.7 and bpg/proxmox 0.70.0.\
 > Requirements may change in PVE 9.x and have not been tested (by me).
+
 The onboarding steps can be skipped if you've already configured this for bpg/proxmox.
 ## Terraform PVE Onboarding (API)
 SSH to your pve instance:
