@@ -280,8 +280,3 @@ output "virtualmachines_ip_addresses" {
     for vm in local.virtualmachines : vm.name => vm.ip
   }
 }
-
-# the ip address of control-1 that'll be used by agents and other controls to join the k3s cluster
-output "k3s_join_ip" {
-  value = local.k3s_join_ip
-}

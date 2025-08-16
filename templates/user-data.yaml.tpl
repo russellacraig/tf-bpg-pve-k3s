@@ -12,10 +12,14 @@ users:
     ssh_authorized_keys:
       - ${ssh_public_key} 
     sudo: ALL=(ALL) NOPASSWD:ALL
+packages:
+  - qemu-guest-agent
+  - net-tools
 runcmd:
-  - apt update
-  - apt install -y qemu-guest-agent net-tools
+  # set timezone for EST
   - timedatectl set-timezone America/Toronto
+  # enable and start qemu-guest-agent
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
-  - echo "done" > /tmp/cloud-config.done
+  # user-data-cloud-config done
+  - echo "done" > /var/log/user-data-cloud-config.done
