@@ -1,6 +1,5 @@
-# bgp/proxmox requires 1.3.0 or higher and hashicorp switched to BSL after 1.5.7 (will test with OpenTofu later)
+# bpg/proxmox provider requirements
 terraform {
-  required_version = ">= 1.3.0, < 1.5.8"
   required_providers {
     proxmox = {
       source = "bpg/proxmox"

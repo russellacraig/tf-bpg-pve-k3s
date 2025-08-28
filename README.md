@@ -1,8 +1,9 @@
 # tf-bpg-pve-k3s
-Deploy a [k3s](https://k3s.io/) cluster on an existing [Proxmox VE](https://www.proxmox.com/en/products/proxmox-virtual-environment/overview) host for homelab scenarios using [Terraform](https://www.hashicorp.com/en/products/terraform) leveraging the [bpg/proxmox](https://registry.terraform.io/providers/bpg/proxmox/latest/docs) provider
+Deploy a [k3s](https://k3s.io/) cluster on an existing [Proxmox VE](https://www.proxmox.com/en/products/proxmox-virtual-environment/overview) host for homelab scenarios using [Terraform](https://www.hashicorp.com/en/products/terraform) or [OpenTofu](https://opentofu.org/) leveraging the [bpg/proxmox](https://registry.terraform.io/providers/bpg/proxmox/latest/docs) provider
 > [!IMPORTANT]
-> Tested with PVE 8.4.1, Terraform 1.5.7 and bpg/proxmox 0.70.0.\
-> Requirements may change in PVE 9.x and have not been tested (by me).
+> Tested with PVE 8.4.1, Terraform 1.5.7, OpenTofu 1.10.5, and bpg/proxmox 0.70.0.\
+> Requirements may change in PVE 9.x and have not been tested (by me).\
+> versions.tf limits Terraform to pre BSL versions, while versions.tofu bypasses this for OpenTofu
 
 The onboarding steps can be skipped if you've already configured this for bpg/proxmox.
 ## Terraform PVE Onboarding (API)
@@ -105,13 +106,23 @@ Copy the example to terraform.tfvars and update with your details.
 
 ## Terraform Deployment
 ```bash
+# Terraform
 $ terraform init
 $ terraform plan
 $ terraform apply
+
+# OpenTofu
+$ tofu init
+$ tofu plan
+$ tofu apply
 ```
 ## Terraform Cleanup
 ```bash
+# Terraform
 $ terraform destroy
+
+# OpenTofu
+$ tofu destroy
 ```
 ## Terraform Variables
 The variables are declared in main.tf with their defaults (These might be moved to a variables.tf later) and you can override as needed... the virtualmachine defaults will create 1 control host and 2 agents:
